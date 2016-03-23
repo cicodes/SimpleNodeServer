@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
+var indexRoute = require('./routes/index');
 
 var app = express();
 
@@ -21,7 +21,43 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+//initialize the pin-channels
+
+var pins = require("./db");
+/*
+var gpio = require('rpi-gpio');
+for(var i in pins){
+  gpio.setup(pins[i].pinNumber, gpio.DIR_OUT, function(){
+    gpio.write(pins[i].pinNumber, true, function(err) {
+      if (err) throw err;
+      console.log("Written to pin:"+pins[i].pinNumber);
+    });
+  });
+}
+console.log()
+*/
+
+app.use('/', indexRoute);
+app.post('/updateState', function(request, response){
+  var buttonID = (request.body.buttonID).replace("button", "");
+  var state = request.body.state;
+
+  //update the db and the pins
+  for(var i in pins){
+    if((pins[i].id)== buttonID ){
+      pins[i].state = state;
+      console.log("PinState of: "+"pin"+buttonID+" is "+pins[i].state);
+
+      gpio.write(pins[i].pinNumber, !state, function (err) {
+        if (err) throw err;
+        console.log("Written to pin:" + pins[i].pinNumber);
+      });
+
+    }
+  }
+
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
