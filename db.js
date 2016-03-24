@@ -4,45 +4,45 @@
 var pinState = [
     {
         "id": "1",
-        "pinNumber" : "8",
+        "pinNumber" : 8,
         "name" : "Stasi 1",
         "orofos": "pano",
-        "state" : "false"
+        "state" : false
     },
     {
         "id": "2",
-        "pinNumber" : "9",
+        "pinNumber" : 9,
         "name" : "Stasi 2",
         "orofos": "pano",
-        "state" : "false"
+        "state" : false
     },
     {
         "id": "3",
-        "pinNumber" : "7",
+        "pinNumber" : 7,
         "name" : "Stasi 3",
         "orofos": "pano",
-        "state" : "false"
+        "state" : false
     },
     {
         "id": "4",
-        "pinNumber" : "0",
+        "pinNumber" : 0,
         "name" : "Stasi 4",
         "orofos": "pano",
-        "state" : "false"
+        "state" : false
     },
     {
         "id": "5",
-        "pinNumber" : "2",
+        "pinNumber" : 2,
         "name" : "Stasi 1",
         "orofos": "kato",
-        "state" : "false"
+        "state" : false
     },
     {
         "id": "6",
-        "pinNumber" : "3",
+        "pinNumber" : 3,
         "name" : "Stasi 2",
         "orofos": "kato",
-        "state" : "false"
+        "state" : false
     }
 ];
 

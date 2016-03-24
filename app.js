@@ -24,38 +24,43 @@ app.use(express.static(path.join(__dirname, 'public')));
 //initialize the pin-channels
 
 var pins = require("./db");
+
 /*
-var gpio = require('rpi-gpio');
+var Gpio = require("onoff").Gpio;
+
 for(var i in pins){
-  gpio.setup(pins[i].pinNumber, gpio.DIR_OUT, function(){
-    gpio.write(pins[i].pinNumber, true, function(err) {
-      if (err) throw err;
-      console.log("Written to pin:"+pins[i].pinNumber);
-    });
-  });
+  var currentPin = new Gpio(pins[i].pinNumber,'out');
+  currentPin.writeSync(1);
+  console.log('pin initialized');
 }
-console.log()
 */
 
+
 app.use('/', indexRoute);
+
 app.post('/updateState', function(request, response){
   var buttonID = (request.body.buttonID).replace("button", "");
   var state = request.body.state;
 
-  //update the db and the pins
+  //update the db and the pin state
   for(var i in pins){
-    if((pins[i].id)== buttonID ){
+    if(pins[i].id == buttonID ){
       pins[i].state = state;
-      console.log("PinState of: "+"pin"+buttonID+" is "+pins[i].state);
+      console.log("PinState of: "+"pin"+buttonID+" is "+pins[i].state+'-');
 
-      gpio.write(pins[i].pinNumber, !state, function (err) {
-        if (err) throw err;
-        console.log("Written to pin:" + pins[i].pinNumber);
-      });
+      //var currentPin = new Gpio(pins[i].pinNumber,'out');
+      if(pins[i].state == "off"){
+        //currentPin.writeSync(1);
+        console.log('low');
+        response.sendStatus(200);
+      }else if(pins[i].state == "on"){
+        //currentPin.writeSync(0);
+        console.log('high');
+        response.sendStatus(200);
+      }
 
     }
   }
-
 });
 
 
