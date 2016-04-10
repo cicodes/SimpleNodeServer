@@ -45,8 +45,8 @@ if (isGpioAvailable) {
     }
 
     //initialize main
-    var mainPin = new Gpio(mainPin, 'out');
-    mainPin.writeSync(1);
+    var currentPin = new Gpio(mainPin, 'out');
+    currentPin.writeSync(1);
 }
 
 app.use('/', indexRoute);
