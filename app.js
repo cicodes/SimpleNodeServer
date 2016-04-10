@@ -26,7 +26,7 @@ var pins = require("./db");
 
 var isGpioAvailable = false;
 var Gpio;
-var mainPin = 25;
+var mainPin = 26;
 var activeLights = 0;
 
 try {
