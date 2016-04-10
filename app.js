@@ -76,17 +76,19 @@ app.post('/updateState', function (request, response) {
                 }
             }
 
-            if(isGpioAvailable){
-                if(activeLights>0){
-                    var mainPin = new Gpio(mainPin, 'out');
-                    mainPin.writeSync(0);
-                }else{
-                    var mainPin = new Gpio(mainPin, 'out');
-                    mainPin.writeSync(1);
+            if(activeLights>0){
+                if(isGpioAvailable) {
+                    var currentPin = new Gpio(mainPin, 'out');
+                    currentPin.writeSync(0);
+                }
+            }else{
+                if(isGpioAvailable) {
+                    var currentPin = new Gpio(mainPin, 'out');
+                    currentPin.writeSync(1);
                 }
             }
-            response.sendStatus(200);
 
+            response.sendStatus(200);
         }
     }
 });
