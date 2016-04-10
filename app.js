@@ -26,6 +26,9 @@ var pins = require("./db");
 
 var isGpioAvailable = false;
 var Gpio;
+var mainPin = 25;
+var activeLights = 0;
+
 try {
     Gpio = require("onoff").Gpio;
     isGpioAvailable = true;
@@ -40,6 +43,10 @@ if (isGpioAvailable) {
         currentPin.writeSync(1);
         console.log('pin initialized');
     }
+
+    //initialize main
+    var mainPin = new Gpio(mainPin, 'out');
+    mainPin.writeSync(1);
 }
 
 app.use('/', indexRoute);
@@ -59,11 +66,23 @@ app.post('/updateState', function (request, response) {
                 if (isGpioAvailable) {
                     var currentPin = new Gpio(pins[i].pinNumber, 'out');
                     currentPin.writeSync(1);
+                    activeLights--;
                 }
             } else if (pins[i].state == "on") {
                 if (isGpioAvailable) {
                     var currentPin = new Gpio(pins[i].pinNumber, 'out');
                     currentPin.writeSync(0);
+                    activeLights++;
+                }
+            }
+
+            if(isGpioAvailable){
+                if(activeLights>0){
+                    var mainPin = new Gpio(mainPin, 'out');
+                    mainPin.writeSync(0);
+                }else{
+                    var mainPin = new Gpio(mainPin, 'out');
+                    mainPin.writeSync(1);
                 }
             }
             response.sendStatus(200);
