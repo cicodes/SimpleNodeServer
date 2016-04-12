@@ -75,6 +75,7 @@ function test() {
         serialPort.on('data', function(data) {
             console.log(data);
         });
+
     }else{
         console.log("Serial Port is not available");
     }
@@ -146,8 +147,6 @@ app.get('/updateState', function (request, response) {
 });
 
 app.get('/allOn', function (request, response) {
-
-    /*
     for (var i in pins) {
         pins[i].state = "on";
 
@@ -161,9 +160,7 @@ app.get('/allOn', function (request, response) {
         var currentPin = new Gpio(mainPin, 'out');
         currentPin.writeSync(0);
     }
-    */
 
-    test();
     console.log("All on mate!");
     response.sendStatus(200);
 });
