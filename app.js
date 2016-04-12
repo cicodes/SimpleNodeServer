@@ -39,6 +39,7 @@ var isSerialPortAvailable = false;
 var SerialPort;
 try {
     SerialPort = require("serialport").SerialPort;
+
     isSerialPortAvailable = true;
 } catch (e) {
     isSerialPortAvailable = false;
@@ -47,16 +48,15 @@ try {
 function test() {
     if (isSerialPortAvailable) {
 
-        SerialPort.on('error', function(err) {
-            console.log("lib error: "+err);
-        });
-        
-        var serialPort = new SerialPort("/dev/tty-usbserial1", {
+        var serialPort = new SerialPort("/dev/ttyACM0", {
             baudrate: 9600
         }, false);
 
+        serialPort.on('error', function(err) {
+            console.log("lib error: "+err);
+        });
 
-
+        //write data
         serialPort.open(function (err) {
             if (err){
                 console.log(err);
@@ -68,6 +68,11 @@ function test() {
                 console.log('err ' + err);
                 console.log('results ' + results);
             });
+        });
+
+        //receive data
+        serialPort.on('data', function(data) {
+
         });
     }else{
         console.log("Serial Port is not available");
