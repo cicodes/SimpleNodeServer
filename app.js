@@ -139,6 +139,7 @@ app.get('/updateState', function (request, response) {
 app.get('/allOn', function (request, response) {
 
     test();
+    response.sendStatus(200);
 
     for (var i in pins) {
         pins[i].state = "on";
