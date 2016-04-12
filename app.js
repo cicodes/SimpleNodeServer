@@ -137,7 +137,6 @@ app.get('/updateState', function (request, response) {
 
 app.get('/allOn', function (request, response) {
 
-
     for (var i in pins) {
         pins[i].state = "on";
 
@@ -151,8 +150,6 @@ app.get('/allOn', function (request, response) {
         var currentPin = new Gpio(mainPin, 'out');
         currentPin.writeSync(0);
     }
-
-    console.log(pins);
 
     test();
     response.sendStatus(200);
@@ -172,8 +169,6 @@ app.get('/allOff', function (request, response) {
             currentPin.writeSync(1);
         }
     }
-
-    console.log(pins);
 
     response.sendStatus(200);
 });
