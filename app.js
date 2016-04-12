@@ -48,7 +48,7 @@ try {
 function test() {
     if (isSerialPortAvailable) {
 
-        var serialPort = new SerialPort("/dev/ttyACM0", {
+        var serialPort = new SerialPort("/dev/ttyAMA0", {
             baudrate: 9600
         }, false);
 
