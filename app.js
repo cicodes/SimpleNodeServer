@@ -36,17 +36,9 @@ try {
 }
 
 var isSerialPortAvailable = false;
-var serialPort;
+var SerialPort;
 try {
-    var SerialPort = require("serialport").SerialPort;
-    serialPort = new SerialPort("/dev/tty-usbserial1", {
-        baudrate: 9600
-    }, false);
-
-    serialPort.on('error', function(err) {
-        console.log("lib error: "+err);
-    });
-
+    SerialPort = require("serialport").SerialPort;
     isSerialPortAvailable = true;
 } catch (e) {
     isSerialPortAvailable = false;
@@ -54,6 +46,13 @@ try {
 
 function test() {
     if (isSerialPortAvailable) {
+        var serialPort = new SerialPort("/dev/tty-usbserial1", {
+            baudrate: 9600
+        }, false);
+
+        serialPort.on('error', function(err) {
+            console.log("lib error: "+err);
+        });
 
         serialPort.open(function (err) {
             if (err){
@@ -139,6 +138,7 @@ app.get('/updateState', function (request, response) {
 
 app.get('/allOn', function (request, response) {
 
+    /*
     for (var i in pins) {
         pins[i].state = "on";
 
@@ -152,8 +152,9 @@ app.get('/allOn', function (request, response) {
         var currentPin = new Gpio(mainPin, 'out');
         currentPin.writeSync(0);
     }
+    */
 
-    //test();
+    test();
     console.log("All on mate!");
     response.sendStatus(200);
 });
