@@ -92,7 +92,6 @@ app.use('/', indexRoute);
 app.post('/updateState', function (request, response) {
     var buttonID = (request.body.buttonID).replace("button", "");
     var state = request.body.state;
-    return;
 
     //update the db and the pin state
     for (var i in pins) {
@@ -137,7 +136,6 @@ app.get('/updateState', function (request, response) {
 });
 
 app.get('/allOn', function (request, response) {
-
 
 
     for (var i in pins) {
