@@ -1,10 +1,13 @@
 $(document).ready(function(){
     var baseURL = "";
+    var pins;
+
+    updateView();
 
     //GET the current state from the server
     function updateView() {
         $.get(baseURL + "/updateState", function (data, status) {
-            var pins = data;
+            pins = data;
             for (var i in pins) {
                 var currentItem = $("#button" + pins[i].id);
 
@@ -12,9 +15,7 @@ $(document).ready(function(){
                 /*
                  var currentFloor = (currentItem.parent()).parent().parent().attr('id');
                  if(currentFloor == "pano_orofos" ){
-
                  }else if(currentFloor == "kato_orofos"){
-
                  }
                  */
 
@@ -35,7 +36,7 @@ $(document).ready(function(){
             console.log("Button clicked with id: "+id+" with status: "+state);
 
             $.post(baseURL+"updateState",{
-                    buttonID : id,
+                    buttonID : [id],
                     state : ((state == true) ? ("on") : ("off"))
                 },
                 function(data, status){
@@ -45,4 +46,44 @@ $(document).ready(function(){
         }
     });
 
+
+    $("#All_On_Button").bind('click', function (e) {
+        console.log("Open all lights!");
+        playSound("Alex Adair - Make Me Feel Better (Don Diablo & CID Remix)");
+
+        /*
+        $.get(baseURL + "/allOn", function (data, status) {
+
+        });
+        */
+
+    });
+
+    $("#All_Off_Button").bind('click', function (e) {
+        console.log("Close all lights!");
+
+        var activeLights = [];
+        for (var i in pins) {
+            activeLights.push(pins[i].id);
+        }
+
+        $.get(baseURL + "/allOff", function (data, status) {
+
+        });
+    });
+
+    $("#voice_control_Button").mousedown(function(event) {
+        console.log("Starting voice recognition!");
+
+        if (recognizing) {
+            recognition.stop();
+            return;
+        }
+        recognition.start();
+
+    }).mouseup(function(){
+        console.log("Stopping voice recognition!");
+
+        recognition.stop();
+    });
 });
