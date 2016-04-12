@@ -101,21 +101,12 @@ if (isGpioAvailable) {
 app.use('/', indexRoute);
 
 
-app.post('/updateState', function (request, response) {
-    var buttonID = (request.body.buttonID).replace("button", "");
-    var state = request.body.state;
-
-    updateLight(buttonID, state);
-    response.sendStatus(200);
-
-});
-
 function updateLight(light, state){
     //update the db and the pin state
     for (var i in pins) {
         if (pins[i].id == light) {
             pins[i].state = state;
-            console.log("pin" + buttonID + " is " + pins[i].state);
+            console.log("pin" + light + " is " + pins[i].state);
 
 
             if (pins[i].state == "off") {
@@ -147,6 +138,16 @@ function updateLight(light, state){
         }
     }
 }
+
+app.post('/updateState', function (request, response) {
+    var buttonID = (request.body.buttonID).replace("button", "");
+    var state = request.body.state;
+
+    updateLight(buttonID, state);
+
+    response.sendStatus(200);
+
+});
 
 app.get('/updateState', function (request, response) {
     response.send(pins);
@@ -197,15 +198,18 @@ function lightsAllOff(){
 }
 
 app.post('/voiceRecognition', function (request, response) {
-    controlWithSpeech(request.body.phrase, request.body.lang);
+
+    console.log(request.body.phrase);
+    console.log(request.body.language);
+    controlWithSpeech(request.body.phrase, request.body.language);
 
     response.sendStatus(200);
 });
 
 
-function controlWithSpeech(result, lang){
+function controlWithSpeech(result, language){
     //console.log(result);
-    if(lang.equals("en-US")){
+    if(language === "en-US"){
 
         var houseName = "Jarvis";
         if (result.indexOf(houseName) > -1) {
@@ -224,8 +228,8 @@ function controlWithSpeech(result, lang){
                 }
             }
         }
-    }else if(lang.equals("el-GR")) {
-
+        console.log("Will Do Sir");
+    }else if(language === "el-GR") {
         var houseName = "βαγγέλη";
         if (result.indexOf(houseName) > -1) {
             console.log(houseName + "detected");
@@ -243,9 +247,9 @@ function controlWithSpeech(result, lang){
                 }
             }
         }
+        console.log("Egine man!");
     }
 }
-
 
 
 // catch 404 and forward to error handler

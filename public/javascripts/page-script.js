@@ -105,6 +105,7 @@ $(document).ready(function(){
     });
 
     executePhrase = function(phrase){
+
         $.post(baseURL+"voiceRecognition",{
                 phrase : phrase,
                 language : recognition.lang
