@@ -46,13 +46,16 @@ try {
 
 function test() {
     if (isSerialPortAvailable) {
+
+        SerialPort.on('error', function(err) {
+            console.log("lib error: "+err);
+        });
+        
         var serialPort = new SerialPort("/dev/tty-usbserial1", {
             baudrate: 9600
         }, false);
 
-        serialPort.on('error', function(err) {
-            console.log("lib error: "+err);
-        });
+
 
         serialPort.open(function (err) {
             if (err){
