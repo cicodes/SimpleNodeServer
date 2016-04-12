@@ -153,7 +153,8 @@ app.get('/allOn', function (request, response) {
         currentPin.writeSync(0);
     }
 
-    test();
+    //test();
+    console.log("All on mate!");
     response.sendStatus(200);
 });
 
@@ -171,7 +172,7 @@ app.get('/allOff', function (request, response) {
             currentPin.writeSync(1);
         }
     }
-
+    console.log("All off mate!");
     response.sendStatus(200);
 });
 

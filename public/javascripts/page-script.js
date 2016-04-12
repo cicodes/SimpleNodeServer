@@ -36,7 +36,7 @@ $(document).ready(function(){
             console.log("Button clicked with id: "+id+" with status: "+state);
 
             $.post(baseURL+"updateState",{
-                    buttonID : [id],
+                    buttonID : id,
                     state : ((state == true) ? ("on") : ("off"))
                 },
                 function(data, status){
@@ -51,11 +51,11 @@ $(document).ready(function(){
         console.log("Open all lights!");
         //playSound("Alex Adair - Make Me Feel Better (Don Diablo & CID Remix)");
 
-        /*
+
         $.get(baseURL + "/allOn", function (data, status) {
 
         });
-        */
+
 
     });
 
