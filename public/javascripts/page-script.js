@@ -1,5 +1,6 @@
+var baseURL = "";
+var executePhrase;
 $(document).ready(function(){
-    var baseURL = "";
     var pins;
 
     updateView();
@@ -52,7 +53,7 @@ $(document).ready(function(){
         //playSound("Alex Adair - Make Me Feel Better (Don Diablo & CID Remix)");
 
         $.get(baseURL + "/allOn", function (data, status) {
-
+            updateView();
         });
 
 
@@ -67,7 +68,7 @@ $(document).ready(function(){
         }
 
         $.get(baseURL + "/allOff", function (data, status) {
-
+            updateView();
         });
     });
 
@@ -102,4 +103,16 @@ $(document).ready(function(){
 
         recognition.stop();
     });
+
+    executePhrase = function(phrase){
+        $.post(baseURL+"voiceRecognition",{
+                phrase : phrase,
+                language : recognition.lang
+            },
+            function(data, status){
+                updateView();
+            }
+        );
+    }
+
 });

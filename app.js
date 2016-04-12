@@ -100,13 +100,20 @@ if (isGpioAvailable) {
 
 app.use('/', indexRoute);
 
+
 app.post('/updateState', function (request, response) {
     var buttonID = (request.body.buttonID).replace("button", "");
     var state = request.body.state;
 
+    updateLight(buttonID, state);
+    response.sendStatus(200);
+
+});
+
+function updateLight(light, state){
     //update the db and the pin state
     for (var i in pins) {
-        if (pins[i].id == buttonID) {
+        if (pins[i].id == light) {
             pins[i].state = state;
             console.log("pin" + buttonID + " is " + pins[i].state);
 
@@ -136,17 +143,22 @@ app.post('/updateState', function (request, response) {
                     currentPin.writeSync(1);
                 }
             }
-
-            response.sendStatus(200);
+            return;
         }
     }
-});
+}
 
 app.get('/updateState', function (request, response) {
     response.send(pins);
 });
 
 app.get('/allOn', function (request, response) {
+    lightsAllOn();
+    console.log("All on mate!");
+    response.sendStatus(200);
+});
+
+function lightsAllOn(){
     for (var i in pins) {
         pins[i].state = "on";
 
@@ -160,12 +172,15 @@ app.get('/allOn', function (request, response) {
         var currentPin = new Gpio(mainPin, 'out');
         currentPin.writeSync(0);
     }
+}
 
-    console.log("All on mate!");
+app.get('/allOff', function (request, response) {
+    lightsAllOff();
+    console.log("All off mate!");
     response.sendStatus(200);
 });
 
-app.get('/allOff', function (request, response) {
+function lightsAllOff(){
     if(isGpioAvailable) {
         var currentPin = new Gpio(mainPin, 'out');
         currentPin.writeSync(1);
@@ -179,9 +194,58 @@ app.get('/allOff', function (request, response) {
             currentPin.writeSync(1);
         }
     }
-    console.log("All off mate!");
+}
+
+app.post('/voiceRecognition', function (request, response) {
+    controlWithSpeech(request.body.phrase, request.body.lang);
+
     response.sendStatus(200);
 });
+
+
+function controlWithSpeech(result, lang){
+    console.log(result);
+    if(lang.equals("en-US")){
+
+        var houseName = "Jarvis";
+        if (result.indexOf(houseName) > -1) {
+            console.log(houseName + "detected");
+
+            if (result.indexOf("open") > -1) {
+                console.log("will open");
+                if (result.indexOf("all the lights") > -1) {
+                    console.log("all the lights");
+                    lightsAllOn();
+                }
+            } else if (result.indexOf("close") > -1) {
+                if (result.indexOf("all the lights") > -1) {
+                    console.log("all the lights");
+                    lightsAllOff();
+                }
+            }
+        }
+    }else if(lang.equals("el-GR")) {
+
+        var houseName = "βαγγέλη";
+        if (result.indexOf(houseName) > -1) {
+            console.log(houseName + "detected");
+
+            if (result.indexOf("άνοιξε") > -1) {
+                console.log("will open");
+                if (result.indexOf("όλα τα φώτα") > -1) {
+                    console.log("all the lights");
+                    lightsAllOn();
+                }
+            } else if (result.indexOf("κλείσε") > -1) {
+                if (result.indexOf("όλα τα φώτα") > -1) {
+                    console.log("all the lights");
+                    lightsAllOff();
+                }
+            }
+        }
+    }
+}
+
 
 
 // catch 404 and forward to error handler

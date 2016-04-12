@@ -1,8 +1,6 @@
 var recognition = new webkitSpeechRecognition() || new SpeechRecognition();
 //recognition.lang = "en-US";
 
-
-
 var recognizing = false;
 var ignore_onend;
 var final_transcript = '';
@@ -37,7 +35,7 @@ recognition.onend = function() {
     }
 
     if (!final_transcript) {
-        console.log('info_start');
+        //console.log('info_start');
         return;
     }
 };
@@ -59,21 +57,10 @@ recognition.onresult = function(event) {
         }
 
     }
-    if(result != "")    controlWithSpeech(result);
-};
 
-function controlWithSpeech(result){
-    console.log(result + "\n");
-    var houseName = "Jarvis";
-    if(result.indexOf(houseName)> -1){
-        if(result.indexOf("open")> -1){
-            if(result.indexOf("all lights")> -1){
-                return;
-            }
-        }else if(result.indexOf("close")> -1){
-            if(result.indexOf("all lights")> -1){
-                return;
-            }
-        }
+    if(result != ""){
+        executePhrase(result);
+        console.log("Recognized: "+result);
     }
-}
+
+};
