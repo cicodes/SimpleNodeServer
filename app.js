@@ -72,7 +72,7 @@ function test() {
 
         //receive data
         serialPort.on('data', function(data) {
-
+            console.log(data);
         });
     }else{
         console.log("Serial Port is not available");
