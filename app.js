@@ -49,14 +49,9 @@ function test() {
     if (isSerialPortAvailable) {
 
         var serialPort = new SerialPort("/dev/ttyAMA0", {
-            baudrate: 9600
+            baudrate: 9600,
+            parser: SerialPort.parsers.readline("\n")
         }, false);
-
-        serialport.list(function (err, ports) {
-            ports.forEach(function(port) {
-                console.log(port.comName);
-            });
-        });
 
         serialPort.on('error', function(err) {
             console.log("lib error: "+err);
