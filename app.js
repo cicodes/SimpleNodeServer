@@ -204,7 +204,7 @@ app.post('/voiceRecognition', function (request, response) {
 
 
 function controlWithSpeech(result, lang){
-    console.log(result);
+    //console.log(result);
     if(lang.equals("en-US")){
 
         var houseName = "Jarvis";
