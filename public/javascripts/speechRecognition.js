@@ -1,5 +1,7 @@
 var recognition = new webkitSpeechRecognition() || new SpeechRecognition();
-recognition.lang = "en-US";
+//recognition.lang = "en-US";
+
+
 
 var recognizing = false;
 var ignore_onend;

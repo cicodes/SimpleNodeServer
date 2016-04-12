@@ -52,6 +52,12 @@ function test() {
             baudrate: 9600
         }, false);
 
+        serialport.list(function (err, ports) {
+            ports.forEach(function(port) {
+                console.log(port.comName);
+            });
+        });
+
         serialPort.on('error', function(err) {
             console.log("lib error: "+err);
         });

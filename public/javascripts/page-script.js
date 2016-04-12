@@ -72,13 +72,30 @@ $(document).ready(function(){
         });
     });
 
-    $("#voice_control_Button").mousedown(function(event) {
-        console.log("Starting voice recognition!");
+    $("#voice_control_Button-en").mousedown(function(event) {
+        console.log("Starting English voice recognition!");
 
         if (recognizing) {
             recognition.stop();
             return;
         }
+        recognition.lang = "en-US";
+        recognition.start();
+
+    }).mouseup(function(){
+        console.log("Stopping voice recognition!");
+
+        recognition.stop();
+    });
+
+    $("#voice_control_Button-gr").mousedown(function(event) {
+        console.log("Starting Greek voice recognition!");
+
+        if (recognizing) {
+            recognition.stop();
+            return;
+        }
+        recognition.lang = "el-GR";
         recognition.start();
 
     }).mouseup(function(){
