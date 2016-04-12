@@ -85,6 +85,8 @@ if (isGpioAvailable) {
     //initialize main
     var currentPin = new Gpio(mainPin, 'out');
     currentPin.writeSync(1);
+}else{
+    console.log("Gpio is not available");
 }
 
 app.use('/', indexRoute);
