@@ -56,7 +56,7 @@ function test() {
     if (isSerialPortAvailable) {
 
         serialPort.open(function (err) {
-            if (err) {
+            if (err){
                 console.log(err);
                 return;
             }
@@ -67,6 +67,8 @@ function test() {
                 console.log('results ' + results);
             });
         });
+    }else{
+        console.log("Serial Port is not available");
     }
 }
 
@@ -91,8 +93,6 @@ app.post('/updateState', function (request, response) {
     var buttonID = (request.body.buttonID).replace("button", "");
     var state = request.body.state;
     return;
-
-    test();
 
     //update the db and the pin state
     for (var i in pins) {
@@ -137,6 +137,8 @@ app.get('/updateState', function (request, response) {
 });
 
 app.get('/allOn', function (request, response) {
+
+    test();
 
     for (var i in pins) {
         pins[i].state = "on";
