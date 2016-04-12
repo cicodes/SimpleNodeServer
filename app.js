@@ -41,7 +41,12 @@ try {
     var SerialPort = require("serialport").SerialPort;
     serialPort = new SerialPort("/dev/tty-usbserial1", {
         baudrate: 9600
+    }, false);
+
+    serialPort.on('error', function(err) {
+        console.log("lib error: "+err);
     });
+
     isSerialPortAvailable = true;
 } catch (e) {
     isSerialPortAvailable = false;
@@ -49,12 +54,18 @@ try {
 
 function test() {
     if (isSerialPortAvailable) {
+
         serialPort.open(function (err) {
             if (err) {
-                return console.log('Error opening port: ', err.message);
+                console.log(err);
+                return;
             }
-            //errors will be emitted on the port since there is no callback to write
-            serialPort.write("StatusPinOn");
+            console.log('open');
+
+            serialPort.write("StatusPinOn\n", function(err, results) {
+                console.log('err ' + err);
+                console.log('results ' + results);
+            });
         });
     }
 }
