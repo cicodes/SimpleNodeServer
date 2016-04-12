@@ -49,7 +49,7 @@ $(document).ready(function(){
 
     $("#All_On_Button").bind('click', function (e) {
         console.log("Open all lights!");
-        playSound("Alex Adair - Make Me Feel Better (Don Diablo & CID Remix)");
+        //playSound("Alex Adair - Make Me Feel Better (Don Diablo & CID Remix)");
 
         /*
         $.get(baseURL + "/allOn", function (data, status) {
