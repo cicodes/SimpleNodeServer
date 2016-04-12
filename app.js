@@ -38,7 +38,7 @@ try {
 var isSerialPortAvailable = false;
 var serialPort;
 try {
-    var SerialPort = require("serialport").SerialPort
+    var SerialPort = require("serialport").SerialPort;
     serialPort = new SerialPort("/dev/tty-usbserial1", {
         baudrate: 9600
     });
@@ -47,13 +47,17 @@ try {
     isSerialPortAvailable = false;
 }
 
-serialPort.open(function (err) {
-    if (err){
-        return console.log('Error opening port: ', err.message);
+function test() {
+    if (isSerialPortAvailable) {
+        serialPort.open(function (err) {
+            if (err) {
+                return console.log('Error opening port: ', err.message);
+            }
+            //errors will be emitted on the port since there is no callback to write
+            serialPort.write("StatusPinOn");
+        });
     }
-    // errors will be emitted on the port since there is no callback to write
-    serialPort.write("StatusPinOn");
-});
+}
 
 
 
@@ -76,6 +80,8 @@ app.post('/updateState', function (request, response) {
     var buttonID = (request.body.buttonID).replace("button", "");
     var state = request.body.state;
     return;
+
+    test();
 
     //update the db and the pin state
     for (var i in pins) {
