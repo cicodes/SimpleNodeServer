@@ -187,7 +187,7 @@ app.get('/houseAlarm', function (request, response) {
 });
 
 function sendMessageToFamily(){
-    var auth = require("auth");
+    var auth = require('./auth');
     var accountSid = auth.accountSid;
     var authToken = auth.authToken;
 
