@@ -187,8 +187,9 @@ app.get('/houseAlarm', function (request, response) {
 });
 
 function sendMessageToFamily(){
-    var accountSid = 'ACadfc5bfab3576990454f63b6bc65b36c';
-    var authToken = '32beeb695d47ed56fa3f3b26f95c8023';
+    var auth = require("auth");
+    var accountSid = auth.accountSid;
+    var authToken = auth.authToken;
 
     var client = require('twilio')(accountSid, authToken);
 
