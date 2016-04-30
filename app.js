@@ -81,7 +81,6 @@ function test() {
 }
 
 
-
 if (isGpioAvailable) {
     //initialize the pin-channels
     for (var i in pins) {

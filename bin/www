@@ -21,6 +21,7 @@ app.set('port', port);
 
 //https server
 var fs = require('fs');
+/*
 var https = require('https');
 
 var key = fs.readFileSync('./https/key.pem');
@@ -30,7 +31,8 @@ var https_options = {
   cert: cert
 };
 
-//var server = https.createServer(https_options, app).listen(port);
+var server = https.createServer(https_options, app).listen(port);
+*/
 
 var server = http.createServer(app).listen(port);
 console.log('HTTP Server listening on %s', port);
