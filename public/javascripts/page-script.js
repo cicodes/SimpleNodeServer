@@ -21,11 +21,20 @@ $(document).ready(function(){
                  */
 
                 //update the state of the buttons from the db
-                currentItem.prop(((pins[i].state == "on") ? ("checked") : ("unchecked")), true);
+                if(pins[i].state === "on"){
+                    currentItem.prop("checked", true);
+                    currentItem.prop("unchecked", false);
+                }else if(pins[i].state === "off"){
+                    currentItem.prop("checked", false);
+                    currentItem.prop("unchecked", true);
+                }
+                //currentItem.prop(((pins[i].state == "on") ? ("checked") : ("unchecked")), true);
                 //update the text of the label from the db
                 (currentItem.parent()).children("label").text(pins[i].name)
             }
         });
+
+
     }
 
 
@@ -62,10 +71,12 @@ $(document).ready(function(){
     $("#All_Off_Button").bind('click', function (e) {
         console.log("Close all lights!");
 
+        /*
         var activeLights = [];
         for (var i in pins) {
             activeLights.push(pins[i].id);
         }
+        */
 
         $.get(baseURL + "/allOff", function (data, status) {
             updateView();
