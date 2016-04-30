@@ -19,13 +19,28 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+//https server
+var fs = require('fs');
+var https = require('https');
+
+var key = fs.readFileSync('./https/key.pem');
+var cert = fs.readFileSync('./https/cert.pem');
+var https_options = {
+  key: key,
+  cert: cert
+};
+
+//var server = https.createServer(https_options, app).listen(port);
+
+var server = http.createServer(app).listen(port);
+console.log('HTTP Server listening on %s', port);
+
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+//server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 

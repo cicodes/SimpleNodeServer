@@ -1,10 +1,8 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var indexRoute = require('./routes/index');
 
 var app = express();
@@ -14,6 +12,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
+//var favicon = require('serve-favicon');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -181,6 +180,31 @@ app.get('/allOff', function (request, response) {
     response.sendStatus(200);
 });
 
+app.get('/houseAlarm', function (request, response) {
+    sendMessageToFamily();
+
+    response.sendStatus(200);
+});
+
+function sendMessageToFamily(){
+    var accountSid = 'ACadfc5bfab3576990454f63b6bc65b36c';
+    var authToken = '32beeb695d47ed56fa3f3b26f95c8023';
+
+    var client = require('twilio')(accountSid, authToken);
+
+    client.messages.create({
+        to: "+306946551335",
+        from: "+447481339485",
+        body: "Kleftes Sto Spiti"
+    }, function(err, message) {
+        if(err){
+            console.log(err);
+            return;
+        }
+        console.log(message.sid);
+    });
+}
+
 function lightsAllOff(){
     if(isGpioAvailable) {
         var currentPin = new Gpio(mainPin, 'out');
@@ -283,5 +307,36 @@ app.use(function (err, req, res, next) {
     });
 });
 
+keepTheServerOpen();
+
+function keepTheServerOpen(){
+    //poke the server every 30 minutes to keep it open!
+    setInterval(function(){
+
+        var http = require('http');
+
+        var options = {
+            host: 'www.google.com',
+            path: ''
+        };
+
+        callback = function(response) {
+            var str = '';
+
+            //another chunk of data has been received, so append it to `str`
+            response.on('data', function (chunk) {
+                str += chunk;
+            });
+
+            //the whole response has been received, so we just print it out here
+            response.on('end', function () {
+                console.log(str);
+            });
+        }
+
+        http.request(options, callback).end();
+
+    }, 1000*60*30);
+}
 
 module.exports = app;
