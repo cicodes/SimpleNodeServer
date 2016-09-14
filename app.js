@@ -193,8 +193,8 @@ function sendMessageToFamily(){
     var client = require('twilio')(accountSid, authToken);
     /*
     client.messages.create({
-        to: "+306946551335",
-        from: "+447481339485",
+        to: "",
+        from: "",
         body: "Kleftes Sto Spiti"
     }, function(err, message) {
         if(err){
