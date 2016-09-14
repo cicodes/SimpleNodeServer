@@ -191,7 +191,7 @@ function sendMessageToFamily(){
     var authToken = auth.authToken;
 
     var client = require('twilio')(accountSid, authToken);
-
+    /*
     client.messages.create({
         to: "+306946551335",
         from: "+447481339485",
@@ -203,6 +203,7 @@ function sendMessageToFamily(){
         }
         console.log(message.sid);
     });
+    */
 }
 
 function lightsAllOff(){
